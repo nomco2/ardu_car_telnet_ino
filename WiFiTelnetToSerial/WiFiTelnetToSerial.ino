@@ -22,17 +22,23 @@
 
 //how many clients should be able to telnet to this ESP8266
 #define MAX_SRV_CLIENTS 2
-const char* ssid = "I-GEOSCAN";
+const char* ssid = "I-GEOSCAN123";
 const char* password = "zzzzzzzz";
 
 WiFiServer server(23);
 WiFiClient serverClients[MAX_SRV_CLIENTS];
 
 void setup() {
-//  Serial.begin(9600);
-//  WiFi.begin(ssid, password);
+  delay(2000);
+  Serial.begin(9600);
+  WiFi.mode(WIFI_AP);
+  Serial.print("wifi status = ");
+  Serial.println(WiFi.status());
   WiFi.softAP("test", "zzzzzzzz");
+//  WiFi.begin(ssid, password);
   IPAddress myIP = WiFi.softAPIP();
+
+  /* station mode needed
   Serial.print("\nConnecting to "); Serial.println(ssid);
   uint8_t i = 0;
   while (WiFi.status() != WL_CONNECTED && i++ < 20) delay(500);
@@ -40,8 +46,9 @@ void setup() {
     Serial.print("Could not connect to"); Serial.println(ssid);
     while(1) delay(500);
   }
+  */
   //start UART and the server
-  Serial.begin(9600);
+//  Serial.begin(9600);
   server.begin();
   server.setNoDelay(true);
   
@@ -49,6 +56,8 @@ void setup() {
 //  Serial.print(WiFi.localIP());
   Serial.print(myIP);
   Serial.println(" 23' to connect");
+  
+
 }
 
 void loop() {
